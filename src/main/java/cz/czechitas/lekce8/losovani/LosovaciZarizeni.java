@@ -2,8 +2,8 @@ package cz.czechitas.lekce8.losovani;
 
 import java.util.List;
 import java.util.Random;
-import java.util.stream.Collectors;
 import java.util.stream.IntStream;
+import java.util.stream.Stream;
 
 /**
  * Třída pro losování náhodných čísel.
@@ -22,8 +22,9 @@ public class LosovaciZarizeni {
      * @param pocet   Počet vylosovaných čísel.
      * @return Stream vylosovaných čísel.
      */
-    public IntStream losovatSeznamCisel(int minimum, int maximum, int pocet) {
-        return random.ints(pocet, minimum, maximum + 1);
+    public Stream<Integer> losovatSeznamCisel(int minimum, int maximum, int pocet) {
+        return random.ints(pocet, minimum, maximum + 1)
+                .boxed();
     }
 
     /**
@@ -33,23 +34,11 @@ public class LosovaciZarizeni {
      *
      * @return Stream vylosovaných čísel.
      */
-    public IntStream losovatSazkuHlavniTah() {
+    public Stream<Integer> losovatSportkuHlavniTah() {
         return random.ints(1, 49 + 1) // 49 + 1, protože parametr horní hranice musí být mimo rozsah vracených hodnot.
                 .distinct()
-                .limit(6);
-    }
-
-    /**
-     * Losuje 6 čísel v rozmezí 1–49.
-     * <p>
-     * Losovaná čísla se nesmí opakovat.
-     *
-     * @return Seznam vylosovaných čísel.
-     */
-    public List<Integer> getSazkaHlavniTah() {
-        return losovatSazkuHlavniTah()
-                .boxed()
-                .collect(Collectors.toList());
+                .limit(6)
+                .boxed();
     }
 
     /**
@@ -59,10 +48,30 @@ public class LosovaciZarizeni {
      *
      * @return Seznam vylosovaných čísel.
      */
+    public Stream<Integer> losovatSanci() {
+        return losovatSeznamCisel(1, 9, 6);
+    }
+
+    /**
+     * Vrátí seznam 6 vylosovaných čísel v rozmezí 1–49.
+     * <p>
+     * Losovaná čísla se nesmí opakovat.
+     *
+     * @return Seznam vylosovaných čísel.
+     */
+    public List<Integer> getSportkaHlavniTah() {
+        return losovatSportkuHlavniTah().toList();
+    }
+
+    /**
+     * Vrátí seznam 6 vylosovaných čísel v rozmezí 1–9.
+     * <p>
+     * Losovaná čísla se mohou opakovat.
+     *
+     * @return Seznam vylosovaných čísel.
+     */
     public List<Integer> getSance() {
-        return losovatSeznamCisel(1, 9, 6)
-                .boxed()
-                .collect(Collectors.toList());
+        return losovatSanci().toList();
     }
 
     /**

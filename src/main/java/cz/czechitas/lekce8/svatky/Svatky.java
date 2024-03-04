@@ -90,7 +90,7 @@ public class Svatky {
     }
 
     /**
-     * Vrátí ženská jména, která maj ísvátek v daném měsíci.
+     * Vrátí ženská jména, která mají svátek v daném měsíci.
      *
      * @param mesic Vybraný měsíc.
      * @return Stream jmen.
@@ -105,7 +105,7 @@ public class Svatky {
      *
      * @return Počet mužských jmen.
      */
-    public int zjistitPocetMuzskychSvatkuPrvniho() {
+    public long zjistitPocetMuzskychSvatkuPrvniho() {
         //TODO
         return 0;
     }
@@ -120,7 +120,7 @@ public class Svatky {
     /**
      * Vypíše počet unikátních jmen v kalendáři.
      */
-    public int zjistitPocetUnikatnichJmen() {
+    public long zjistitPocetUnikatnichJmen() {
         //TODO
         return 0;
     }

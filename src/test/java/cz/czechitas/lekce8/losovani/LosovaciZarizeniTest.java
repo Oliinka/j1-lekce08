@@ -18,7 +18,7 @@ class LosovaciZarizeniTest {
     @RepeatedTest(100)
     void getSazkaHlavniTah() {
         int ocekavanyPocetTazenychCisel = 6;
-        List<Integer> vylosovanaCisla = losovaciZarizeni.getSazkaHlavniTah();
+        List<Integer> vylosovanaCisla = losovaciZarizeni.getSportkaHlavniTah();
 
         assertEquals(ocekavanyPocetTazenychCisel, vylosovanaCisla.size(), "Vylosovaných čísel není %d.".formatted(ocekavanyPocetTazenychCisel));
         assertAll(
