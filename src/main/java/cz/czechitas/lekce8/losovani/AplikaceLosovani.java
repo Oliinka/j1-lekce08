@@ -14,12 +14,12 @@ public class AplikaceLosovani {
     public void run() {
         LosovaciZarizeni losovaciZarizeni = new LosovaciZarizeni();
         System.out.println("Losování prvního tahu Sportky…");
-        this.prvniTah = losovaciZarizeni.losujSazkuHlavniTah();
-        this.vypisTazenaCisla("prvním", prvniTah);
+        this.prvniTah = losovaciZarizeni.losovatSazkuHlavniTah();
+        this.vypsatTazenaCisla("prvním", prvniTah);
 
         System.out.println("Losování druhého tahu Sportky…");
-        this.druhyTah = losovaciZarizeni.losujSazkuHlavniTah();
-        this.vypisTazenaCisla("druhém", druhyTah);
+        this.druhyTah = losovaciZarizeni.losovatSazkuHlavniTah();
+        this.vypsatTazenaCisla("druhém", druhyTah);
 
         System.out.println("Výhercům gratulujeme.");
     }
@@ -27,9 +27,9 @@ public class AplikaceLosovani {
     /**
      * Vypíše všechna vylosovaná čícsla.
      */
-    public void vypisTazenaCisla(String poradi, IntStream vylosovanaCisla) {
+    public void vypsatTazenaCisla(String poradi, IntStream vylosovanaCisla) {
         System.out.printf("V %s tahu Sportky byla tažena čísla:", poradi).println();
-        vylosovanaCisla.forEachOrdered(this::vypisVylosovaneCislo);
+        vylosovanaCisla.forEachOrdered(this::vypsatVylosovaneCislo);
     }
 
     /**
@@ -37,7 +37,7 @@ public class AplikaceLosovani {
      *
      * @param cislo Vylosované číslo k vypsání.
      */
-    private void vypisVylosovaneCislo(int cislo) {
+    private void vypsatVylosovaneCislo(int cislo) {
         System.out.printf("• %d", cislo)
                 .println();
     }

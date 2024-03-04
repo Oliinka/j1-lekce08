@@ -4,184 +4,196 @@ import org.junit.jupiter.api.Test;
 
 import java.time.Month;
 import java.time.MonthDay;
-import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
-import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 class SvatkyTest {
-  private final Svatky svatky = new Svatky();
+    private final Svatky svatky = new Svatky();
 
-  @Test
-  void svatkyVMesici() {
-    assertEquals(50, svatky.svatkyVMesici(Month.JANUARY).count());
-    assertEquals("Karina", svatky.svatkyVMesici(Month.JANUARY)
-            .findFirst()
-            .get()
-            .getJmeno()
-    );
-  }
+    @Test
+    void nacistSvatkyVMesici() {
+        int pocetSvatkuVlednu = 50;
+        String prvniSvatekVLednu = "Karina";
 
-  @Test
-  void datumSvatku() {
-    assertEquals(
-            MonthDay.of(12, 24),
-            svatky.datumSvatku("Eva").findFirst().get()
-    );
-    assertEquals(
-            MonthDay.of(3, 19),
-            svatky.datumSvatku("Josef").findFirst().get()
-    );
-    assertIterableEquals(
-            Arrays.asList(
-                    MonthDay.of(2, 22),
-                    MonthDay.of(6, 29)
-            ),
-            svatky.datumSvatku("Petr")
-                    .collect(Collectors.toList())
-    );
-  }
+        List<Svatek> vysledek = svatky.nacistSvatkyVMesici(Month.JANUARY).toList();
 
-  @Test
-  void muzi() {
-    assertEquals(268, svatky.muzi().count());
-  }
+        assertAll(
+                () -> assertEquals(pocetSvatkuVlednu, vysledek.size()),
+                () -> assertEquals(prvniSvatekVLednu, vysledek.getFirst().jmeno())
+        );
+    }
 
-  @Test
-  void zeny() {
-    assertEquals(276, svatky.zeny().count());
-  }
+    @Test
+    void urcitDatumSvatku() {
+        assertAll(
+                () -> {
+                    MonthDay stedryDen = MonthDay.of(12, 24);
 
-  @Test
-  void den() {
-    assertIterableEquals(
-            Arrays.asList("Adam", "Eva", "Gaia", "Kračun"),
-            svatky.den(MonthDay.of(12, 24))
-                    .collect(Collectors.toList())
-    );
-  }
+                    Stream<MonthDay> vysledek = svatky.urcitDatumSvatku("Eva");
 
-  @Test
-  void zenskaJmenaVMesici() {
-    assertIterableEquals(
-            Arrays.asList(
-                    "Brigid",
-                    "Nela",
-                    "Jarmila",
-                    "Dobromila",
-                    "Dobromíra",
-                    "Vanda",
-                    "Danuše",
-                    "Veronika",
-                    "Bereniké",
-                    "Verona",
-                    "Milada",
-                    "Mlada",
-                    "Apolena",
-                    "Apolonie",
-                    "Božena",
-                    "Slavěna",
-                    "Slávka",
-                    "Věnceslava",
-                    "Věnka",
-                    "Valentýna",
-                    "Jiřina",
-                    "Jorga",
-                    "Ljuba",
-                    "Miloslava",
-                    "Gizela",
-                    "Lenka",
-                    "Eleonora",
-                    "Etel",
-                    "Liliana",
-                    "Lilie",
-                    "Dorota",
-                    "Dorothea"
-            ),
-            svatky.zenskaJmenaVMesici(Month.FEBRUARY)
-                    .collect(Collectors.toList())
-    );
-  }
+                    assertIterableEquals(List.of(stedryDen), vysledek.toList());
+                },
+                () -> {
+                    MonthDay svatekMaJosef = MonthDay.of(3, 19);
 
-  @Test
-  void pocetMuzuSvatekPrvniho() {
-    assertEquals(10, svatky.pocetMuzuSvatekPrvniho());
-  }
+                    Stream<MonthDay> vysledek = svatky.urcitDatumSvatku("Josef");
 
-  @Test
-  void vypsatJmenaListopad() {
-    svatky.vypsatJmenaListopad();
-  }
+                    assertIterableEquals(List.of(svatekMaJosef), vysledek.toList());
+                },
+                () -> {
+                    List<MonthDay> svatekMaPetr = List.of(
+                            MonthDay.of(2, 22),
+                            MonthDay.of(6, 29)
+                    );
 
-  @Test
-  void pocetUnikatnichJmen() {
-    assertEquals(541, svatky.pocetUnikatnichJmen());
-  }
+                    Stream<MonthDay> vysledek = svatky.urcitDatumSvatku("Petr");
 
-  @Test
-  void cervenJmenaOdDesatehoJmena() {
-    assertIterableEquals(
-            Arrays.asList(
-                    "Slavoj",
-                    "Medard",
-                    "Stanislava",
-                    "Gita",
-                    "Bruno",
-                    "Amabel",
-                    "Mabel",
-                    "Antonie",
-                    "Antonín",
-                    "Roland",
-                    "Vít",
-                    "Svantovít",
-                    "Isolde",
-                    "Zbyněk",
-                    "Adolf",
-                    "Milan",
-                    "Leoš",
-                    "Leon",
-                    "Květa",
-                    "Alois",
-                    "Pavla",
-                    "Zdeňka",
-                    "Zdenka",
-                    "Jan",
-                    "Ivan",
-                    "Adrian",
-                    "Ladislav",
-                    "Lubomír",
-                    "Petr",
-                    "Pavel",
-                    "Šárka",
-                    "Vlastimír"
-            ),
-            svatky.cervenJmenaOdDesatehoJmena()
-                    .collect(Collectors.toList())
-    );
-  }
+                    assertIterableEquals(svatekMaPetr, vysledek.toList());
+                }
+        );
+    }
 
-  @Test
-  void jmenaOdVanoc() {
-    assertIterableEquals(
-            Arrays.asList(
-                    "Adam",
-                    "Eva",
-                    "Gaia",
-                    "Kračun",
-                    "Štěpán",
-                    "Štefan",
-                    "Žaneta",
-                    "Bohumila",
-                    "Judita",
-                    "David",
-                    "Silvestr"
-            ),
-            svatky.jmenaOdVanoc()
-                    .collect(Collectors.toList()
-                    )
-    );
-  }
+    @Test
+    void nacistSeznamSvatkuMuzu() {
+        long pocetJmenMuzu = svatky.nacistSeznamSvatkuMuzu().count();
+        assertEquals(268, pocetJmenMuzu);
+    }
+
+    @Test
+    void nacistSeznamSvatkuZen() {
+        long pocetJmenZen = svatky.nacistSeznamSvatkuZen().count();
+        assertEquals(276, pocetJmenZen);
+    }
+
+    @Test
+    void urcitSvatkyProDen() {
+        List<String> jmenaStedryDen = List.of("Adam", "Eva", "Gaia", "Kračun");
+
+        Stream<String> vysledek = svatky.urcitSvatkyProDen(MonthDay.of(12, 24));
+
+        assertIterableEquals(jmenaStedryDen, vysledek.toList());
+    }
+
+    @Test
+    void nacistZenskaJmenaVMesici() {
+        List<String> zenskaJmenaVUnoru = List.of(
+                "Brigid",
+                "Nela",
+                "Jarmila",
+                "Dobromila",
+                "Dobromíra",
+                "Vanda",
+                "Danuše",
+                "Veronika",
+                "Bereniké",
+                "Verona",
+                "Milada",
+                "Mlada",
+                "Apolena",
+                "Apolonie",
+                "Božena",
+                "Slavěna",
+                "Slávka",
+                "Věnceslava",
+                "Věnka",
+                "Valentýna",
+                "Jiřina",
+                "Jorga",
+                "Ljuba",
+                "Miloslava",
+                "Gizela",
+                "Lenka",
+                "Eleonora",
+                "Etel",
+                "Liliana",
+                "Lilie",
+                "Dorota",
+                "Dorothea"
+        );
+
+        Stream<String> vysledek = svatky.nacistZenskaJmenaVMesici(Month.FEBRUARY);
+
+        assertIterableEquals(zenskaJmenaVUnoru, vysledek.toList());
+    }
+
+    @Test
+    void zjistitPocetMuzskychSvatkuPrvniho() {
+        assertEquals(10, svatky.zjistitPocetMuzskychSvatkuPrvniho());
+    }
+
+    @Test
+    void vypsatJmenaListopad() {
+        svatky.vypsatJmenaListopad();
+    }
+
+    @Test
+    void zjistitPocetUnikatnichJmen() {
+        assertEquals(541, svatky.zjistitPocetUnikatnichJmen());
+    }
+
+    @Test
+    void urcitJmenavCervnuVynechatPrvnichDeset() {
+        List<String> jmenaVCervnuBezPrvnichDeseti = List.of(
+                "Slavoj",
+                "Medard",
+                "Stanislava",
+                "Gita",
+                "Bruno",
+                "Amabel",
+                "Mabel",
+                "Antonie",
+                "Antonín",
+                "Roland",
+                "Vít",
+                "Svantovít",
+                "Isolde",
+                "Zbyněk",
+                "Adolf",
+                "Milan",
+                "Leoš",
+                "Leon",
+                "Květa",
+                "Alois",
+                "Pavla",
+                "Zdeňka",
+                "Zdenka",
+                "Jan",
+                "Ivan",
+                "Adrian",
+                "Ladislav",
+                "Lubomír",
+                "Petr",
+                "Pavel",
+                "Šárka",
+                "Vlastimír"
+        );
+
+        Stream<String> vysledek = svatky.urcitJmenavCervnuVynechatPrvnichDeset();
+
+        assertIterableEquals(jmenaVCervnuBezPrvnichDeseti, vysledek.toList());
+    }
+
+    @Test
+    void urcitJmenaOdVanoc() {
+        List<String> jmenaOdVanoc = List.of(
+                "Adam",
+                "Eva",
+                "Gaia",
+                "Kračun",
+                "Štěpán",
+                "Štefan",
+                "Žaneta",
+                "Bohumila",
+                "Judita",
+                "David",
+                "Silvestr"
+        );
+
+        Stream<String> vysledek = svatky.urcitJmenaOdVanoc();
+
+        assertIterableEquals(jmenaOdVanoc, vysledek.toList());
+    }
 
 }
